@@ -82,28 +82,50 @@ function OrderManagement() {
                   <p>{orders.distance} km</p>
                   <span>|</span>
                   <p
-                    className={`${orders.priority === "urgent" ? "text-red-500" : ""}`}
+                    className={`font-semibold
+    ${orders.priority === "urgent" ? "text-red-500" : ""}
+    ${orders.priority === "high" ? "text-orange-500" : ""}
+    ${orders.priority === "medium" ? "text-yellow-500" : ""}
+    ${orders.priority === "low" ? "text-green-500" : ""}
+  `}
                   >
-                    {orders.priority === "urgent" ? "Urgent" : ""}
+                    {orders.priority === "urgent"
+                      ? "Urgent"
+                      : orders.priority === "high"
+                        ? "High"
+                        : orders.priority === "medium"
+                          ? "Medium"
+                          : "Low"}
                   </p>
                 </div>
               </div>
               <hr className="border-gray-400 my-2" />
-              <div className="sm:flex text-sm sm:text-base items-center justify-between">
-                <div>
+              <div className="text-sm sm:text-base items-center justify-between">
+                <div className="mb-2">
                   <p className="font-semibold text-gray-600">Pickup Address</p>
                   <p>{orders.pickup_address}</p>
+                  <div className="flex items-center space-x-2">
+                    <p>{orders.pickup_city},</p>
+                    <p>{orders.pickup_state},</p>
+                    <p>{orders.pickup_country},</p>
+                    <p>{orders.pickup_pincode}</p>
+                  </div>
                 </div>
-                <HiArrowLongRight className="hidden sm:block" size={30} />
                 <div>
                   <p className="font-semibold text-gray-600">
                     Delivery Address
                   </p>
                   <p>{orders.delivery_address}</p>
+                  <div className="flex items-center space-x-2">
+                    <p>{orders.delivery_city},</p>
+                    <p>{orders.delivery_state},</p>
+                    <p>{orders.delivery_country},</p>
+                    <p>{orders.delivery_pincode}</p>
+                  </div>
                 </div>
               </div>
               <hr className="border-gray-400 my-2" />
-              <p>Order Details</p>
+              <p className="text-[#254441] font-semibold">Order Details</p>
 
               <div className="grid text-sm sm:text-base grid-cols-2 gap-2">
                 <div>
@@ -157,7 +179,10 @@ function OrderManagement() {
       </div>
 
       {open_create_order_form && (
-        <AddOrderForm setopen_create_order_form={setopen_create_order_form} />
+        <AddOrderForm
+          setopen_create_order_form={setopen_create_order_form}
+          renderingOrders={renderingOrders}
+        />
       )}
     </div>
   );
