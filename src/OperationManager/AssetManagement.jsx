@@ -32,31 +32,33 @@ function AssetManagement() {
       <OperationManagerNavbar />
       <div className="p-5">
         <div className="w-full flex items-start justify-between bg-white border border-gray-400 p-5 rounded shadow">
-          <p className="text-[#254441] text-xl font-bold">Asset Management</p>
+          <p className="text-[#254441] text-lg sm:text-xl font-bold">
+            Asset Management
+          </p>
           <button
             onClick={() => {
               setopen_asset_form(true);
             }}
-            className="text-white bg-[#43aa8b] font-semibold px-4 rounded py-1"
+            className="text-white  bg-[#43aa8b] text-sm sm:text-base font-semibold px-4 rounded py-1"
           >
             + Create Asset
           </button>
         </div>
 
-        <div className="grid grid-cols-3 mt-5 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 mt-5 gap-5">
           {getting_assets.map((asset) => (
             <div className="p-5 bg-white border border-gray-400">
-              <div className="flex items-start justify-between">
-                <p className="text-lg text-[#254441] font-bold">
+              <div className="sm:flex items-start justify-between">
+                <p className="sm:text-lg text-[#254441] font-bold">
                   {asset.asset_name}
                 </p>
-                <p className="font-semibold text-[#43aa8b]">
+                <p className="font-semibold text-sm sm:text-base text-[#43aa8b]">
                   {asset.asset_code}
                 </p>
               </div>
 
               <hr className="border-gray-400 my-2" />
-              <div className="flex items-center justify-between">
+              <div className="sm:flex text-sm sm:text-base items-center justify-between">
                 <div>
                   <p className="font-semibold text-gray-600">Category:</p>
                   <p className="capitalize">

@@ -9,7 +9,7 @@ function Fields({ label, field_value, type }) {
         onChange={(event) => {
           field_value(event.target.value);
         }}
-        className="border p-2 w-full border-gray-300"
+        className="border p-1 sm:p-2 w-full border-gray-300"
       />
     </div>
   );

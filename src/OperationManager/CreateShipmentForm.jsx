@@ -11,15 +11,48 @@ function CreateShipmentForm({ setopen_add_shipment_form }) {
 
   const [current_step, setcurrent_step] = useState(1);
   const [shipment_type, setshipment_type] = useState("");
-
   const [getting_orders, setgetting_orders] = useState([]);
   const [selected_order, setselected_order] = useState(null);
   const [selected_bulk_orders, setselected_bulk_orders] = useState([]);
-
   const [total_loaded_weight, settotal_loaded_weight] = useState("");
   const [getting_fleets, setgetting_fleets] = useState([]);
   const [selected_fleet, setselected_fleet] = useState("");
   const [checkpoints, setcheckpoints] = useState([]);
+  const [states, setstates] = useState([]);
+  const [cities, setcities] = useState([]);
+  const [selected_state, setselected_state] = useState("");
+  const [selected_city, setselected_city] = useState("");
+
+  async function fetchStates() {
+    try {
+      const response = await axios.post(
+        "https://countriesnow.space/api/v0.1/countries/states",
+        {
+          country: "India",
+        },
+      );
+
+      setstates(response.data.data.states);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function fetchCities(state) {
+    try {
+      const response = await axios.post(
+        "https://countriesnow.space/api/v0.1/countries/state/cities",
+        {
+          country: "India",
+          state: state,
+        },
+      );
+
+      setcities(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function renderingOrders() {
     try {
@@ -80,6 +113,7 @@ function CreateShipmentForm({ setopen_add_shipment_form }) {
   useEffect(() => {
     renderingOrders();
     renderingFleet();
+    fetchStates();
   }, []);
 
   const selected_orders_data = getting_orders.filter((order) =>
@@ -142,7 +176,7 @@ function CreateShipmentForm({ setopen_add_shipment_form }) {
 
         {current_step === 1 && (
           <div>
-            <div className="mb-8">
+            <div className="w-full">
               <label className="block text-gray-700 font-medium mb-2">
                 Select Shipment Type
               </label>
@@ -163,6 +197,56 @@ function CreateShipmentForm({ setopen_add_shipment_form }) {
                 Choose how you want to group your orders into this shipment.
               </p>
             </div>
+
+            {shipment_type === "many_to_one" && (
+              <>
+                <div className="flex gap-5 mt-5 w-full">
+                  <div className="w-full">
+                    <p className="mb-1">Select State</p>
+
+                    <select
+                      value={selected_state}
+                      onChange={(e) => {
+                        setselected_state(e.target.value);
+                        setselected_city("");
+                        fetchCities(e.target.value);
+                      }}
+                      className="border p-3 rounded w-full border-gray-400"
+                    >
+                      <option value="">Select State</option>
+
+                      {states.map((state, index) => (
+                        <option key={index} value={state.name}>
+                          {state.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="w-full">
+                    <p className="mb-1">Select City</p>
+
+                    <select
+                      value={selected_city}
+                      onChange={(e) => setselected_city(e.target.value)}
+                      className="border p-3 rounded w-full border-gray-400"
+                      disabled={!selected_state}
+                    >
+                      <option value="">Select City</option>
+
+                      {cities.map((city, index) => (
+                        <option key={index} value={city}>
+                          {city}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <p className="text-gray-600 text-sm mt-2">
+                  Select a state and city to filter nearby shipment orders.
+                </p>
+              </>
+            )}
 
             <div className="flex justify-end">
               <button
@@ -222,7 +306,7 @@ function CreateShipmentForm({ setopen_add_shipment_form }) {
                   Select Multiple Orders
                 </h3>
                 {getting_orders
-                  .filter((order) => Number(order.total_weight) <= 800)
+                  .filter((order) => Number(order.total_weight) <= 800 && order.)
                   .map((order) => (
                     <div
                       key={order.id}

@@ -53,22 +53,26 @@ function RegisterOrganization() {
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white w-6/12 p-5 border border-gray-400 shadow">
+      <div className="bg-white sm:w-6/12 p-5 border border-gray-400 shadow">
         <div className="flex items-start text-sm justify-between">
-          <p className="font-bold mb-3 text-xl">Register your Organization</p>
+          <p className="font-bold mb-3 text-lg sm:text-xl">
+            Register your Organization
+          </p>
           <button
             onClick={() => {
               navigation("/");
             }}
-            className="flex items-center border border-gray-800 hover:text-white px-4 rounded-full py-1 hover:bg-gray-800 space-x-2"
+            className="flex items-center border border-gray-800 hover:text-white px-2 sm:px-4 rounded-full py-0.5 sm:py-1 hover:bg-gray-800 space-x-2"
           >
             <FaArrowLeftLong />
-            <p className="font-semibold">Back</p>
+            <p className="text-sm sm:text-base font-semibold">Back</p>
           </button>
         </div>
         <div>
           <div>
-            <p className="text-lg font-semibold">Organization Registration</p>
+            <p className="sm:text-lg font-semibold">
+              Organization Registration
+            </p>
             <div className="grid grid-cols-2 gap-3">
               <Fields
                 type={"text"}
